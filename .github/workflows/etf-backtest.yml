@@ -9,8 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run backtest
-        run: python etf_backtest.py
+        shell: bash
+        run: |
+          mkdir -p output
+          python etf_backtest.py > output/run.log 2>&1 || true
+          cat output/run.log
       - name: Upload results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: etf-backtest-results
