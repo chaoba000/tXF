@@ -43,7 +43,7 @@ def load_universe():
             raw=row.get('證券代碼','').strip()
             code=raw.replace('.TW','').replace('.TWO','')
             name=row.get('名稱','').strip()
-            if not code or (code=='0050' and '大盤基準' in name):
+            if not code:
                 continue
             if code.endswith(('L','R')) or EXCLUDE_RE.search(name):
                 excluded.append({'code':code,'name':name,'category':cat,'reason':'槓桿/反向/ETN'})
