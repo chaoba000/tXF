@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 import csv
+import math
 import runpy
+import statistics
 import sys
 import traceback
 import urllib.request
 from pathlib import Path
 
 csv.field_size_limit(sys.maxsize)
+
+def _stdev(values):
+    clean = [float(v) for v in values if math.isfinite(float(v))]
+    if len(clean) < 2:
+        return 0.0
+    mean = sum(clean) / len(clean)
+    return math.sqrt(sum((v - mean) ** 2 for v in clean) / (len(clean) - 1))
+
+statistics.stdev = _stdev
 out = Path('output')
 out.mkdir(exist_ok=True)
 url = 'https://raw.githubusercontent.com/chaoba000/tXF/main/etf_backtest.py'
